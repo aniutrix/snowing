@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Снег</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: transparent;
+    }
+    #snowflakes {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+  <div id="snowflakes"></div>
+
+  <script>
+    const container = document.getElementById('snowflakes');
+    const snowflakesCount = 50; // можно уменьшить до 30, если нужно
+
+    for (let i = 0; i < snowflakesCount; i++) {
+      const snowflake = document.createElement('div');
+      snowflake.innerHTML = '❄';
+      snowflake.style.position = 'absolute';
+      snowflake.style.fontSize = Math.random() * 20 + 10 + 'px';
+      snowflake.style.opacity = Math.random() * 0.6 + 0.2;
+      snowflake.style.color = '#fff';
+      snowflake.style.left = Math.random() * 100 + 'vw';
+      snowflake.style.top = '-20px';
+      snowflake.style.textShadow = '0 0 5px rgba(255,255,255,0.7)';
+      snowflake.style.zIndex = '10000';
+      container.appendChild(snowflake);
+
+      animateSnowflake(snowflake);
+    }
+
+    function animateSnowflake(el) {
+      const duration = Math.random() * 10 + 5;
+      const startX = parseFloat(el.style.left);
+      const swing = Math.random() * 40 - 20;
+
+      el.style.transition = `top ${duration}s linear, transform ${duration}s ease-in-out`;
+      el.style.transform = `translateX(${swing}px)`;
+      el.style.top = '100vh';
+
+      setTimeout(() => {
+        el.style.transition = 'none';
+        el.style.top = '-20px';
+        el.style.left = Math.random() * 100 + 'vw';
+        el.style.transform = 'translateX(0)';
+        setTimeout(() => animateSnowflake(el), 100);
+      }, duration * 1000);
+    }
+  </script>
+</body>
+</html>
